@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private int seconds=0;
     private int lap=0;
     private boolean running;
-    private int totalTime=0;
+    private int lapTime = 0;
     private TextView lapView1;
     private TextView lapView2;
     private TextView lapView3;
@@ -46,8 +46,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickLap(View view) {
         lap++;
-        totalTime += seconds;
-        seconds = 0;
+        lapTime += seconds;
+        //seconds = 0;
+
+        int lapHours = lapTime /3600;
+        int lapMinutes = (lapTime % 3600 )/60;
+        int lapSeconds = lapTime % 60;
+        String total = String.format(Locale.getDefault(), "%d:%02d:%02d",lapHours,lapMinutes,lapSeconds);
+        if (lap ==1) {
+            lapView1.setText("lap " + lap + " :" + total +"\n");
+        }
+        else if (lap ==2) {
+            lapView2.setText("lap " + lap + " :" + total +"\n");
+        }
+        else if (lap ==3) {
+            lapView3.setText("lap " + lap + " :" + total +"\n");
+        }
+        else if (lap ==4) {
+            lapView4.setText("lap " + lap + " :" + total +"\n");
+        }
+        else if (lap ==5) {
+            lapView5.setText("lap " + lap + " :" + total +"\n");
+        }
+
+        lapTime = 0;
     }
 
     public void onClickStop(View view) {
@@ -57,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickRest(View view) {
         running = false;
         seconds = 0;
-        totalTime = 0;
+        lapTime = 0;
         lap = 0;
         lapView1.setText("");
         lapView2.setText("");
@@ -87,25 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 int secs = seconds % 60;
                 String time = String.format(Locale.getDefault(), "%d:%02d:%02d",hours,minutes,secs);
                 timeView.setText(time);
-                int totalHours = totalTime /3600;
-                int totalMinutes = (totalTime % 3600 )/60;
-                int totalSecs = totalTime % 60;
-                String total = String.format(Locale.getDefault(), "%d:%02d:%02d",totalHours,totalMinutes,totalSecs);
-                if (lap ==1) {
-                    lapView1.setText("lap " + lap + " :" + total +"\n");
-                }
-                else if (lap ==2) {
-                    lapView2.setText("lap " + lap + " :" + total +"\n");
-                }
-                else if (lap ==3) {
-                    lapView3.setText("lap " + lap + " :" + total +"\n");
-                }
-                else if (lap ==4) {
-                    lapView4.setText("lap " + lap + " :" + total +"\n");
-                }
-                else if (lap ==5) {
-                    lapView5.setText("lap " + lap + " :" + total +"\n");
-                }
                 if(running){
                     seconds++;
                 }
