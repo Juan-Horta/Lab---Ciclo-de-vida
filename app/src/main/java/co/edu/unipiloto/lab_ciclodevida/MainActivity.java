@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private int lap=0;
     private boolean running;
     private int totalTime=0;
-    private boolean wasRunning;
     private TextView lapView1;
     private TextView lapView2;
     private TextView lapView3;
@@ -32,42 +31,25 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             seconds = savedInstanceState.getInt("seconds");
             running =savedInstanceState.getBoolean("runnig");
-            wasRunning = savedInstanceState.getBoolean("wasRunning");
             lap =savedInstanceState.getInt("lap");
         }
         runTimer();
     }
+
     public void onSavedInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("seconds",seconds);
         savedInstanceState.putBoolean("runnig",running);
-        savedInstanceState.putBoolean("wasRunning",wasRunning);
         savedInstanceState.putInt("lap",lap);
 
     }
 
-    public void  onResume() {
-        super.onResume();
-        if(wasRunning){
-            running = true;
-        }
-    }
-
     public void onClickLap(View view) {
-
-        /*
-        if(!running)
-            return;*/
-
         lap++;
         totalTime += seconds;
-        //seconds =0;
+        seconds = 0;
     }
-    public void  onPause() {
-        super.onPause();
-        wasRunning = running;
-        running = false;
-    }
+
     public void onClickStop(View view) {
         running = false;
     }
@@ -82,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         lapView3.setText("");
         lapView4.setText("");
         lapView5.setText("");
-
     }
 
     public void onClickStart(View view) {
@@ -102,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 int hours = seconds / 3600;
-                int minutes = (seconds % 3600 )/60;
+                int minutes = (seconds % 3600)/60;
                 int secs = seconds % 60;
                 String time = String.format(Locale.getDefault(), "%d:%02d:%02d",hours,minutes,secs);
                 timeView.setText(time);
